@@ -10,3 +10,18 @@ Característica: Cobro por permanencia en el parqueadero BikeParq
     Entonces el cobro es de 3000 pesos
 
   # PUNTO 3: escriba aquí sus 3 escenarios del recargo nocturno.
+
+  Escenario: La entrada nocturna tiene recargo
+    Dado una tarifa de 3000 pesos
+    Cuando el vehículo entró a las 22 horas
+    Entonces el total a pagar es de 5000 pesos
+
+  Escenario: La entrada diurna no tiene recargo
+    Dado una tarifa de 3000 pesos
+    Cuando el vehículo entró a las 10 horas
+    Entonces el total a pagar es de 3000 pesos
+
+  Escenario: El tiempo de gracia no tiene recargo nocturno
+    Dado una tarifa de 0 pesos
+    Cuando el vehículo entró a las 23 horas
+    Entonces el total a pagar es de 0 pesos
