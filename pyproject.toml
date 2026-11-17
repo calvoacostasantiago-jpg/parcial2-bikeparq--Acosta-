@@ -1,0 +1,35 @@
+[project]
+name = "bikeparq"
+version = "0.1.0"
+description = "Cobro del parqueadero BikeParq - Segundo parcial de Pruebas de Software"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4",
+    "pytest-bdd>=8.1",
+    "pytest-cov>=7.0",
+    "ruff>=0.14",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+bdd_features_base_dir = "tests/features"
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "N", "B", "SIM", "UP", "C90", "PLR5501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5

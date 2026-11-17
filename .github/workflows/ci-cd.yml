@@ -1,0 +1,47 @@
+name: CI/CD BikeParq
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  analisis-estatico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v10.3.3
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+
+  pruebas-unitarias:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v10.3.3
+      - run: uv sync
+      - run: uv run pytest --ignore=tests/test_cobro_bdd.py -v
+
+  pruebas-bdd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v10.3.3
+      - run: uv sync
+      - run: uv run pytest tests/test_cobro_bdd.py -v
+
+  cobertura:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v10.3.3
+      - run: uv sync
+      - run: uv run pytest --cov --cov-report=term-missing --cov-fail-under=90
+
+  despliegue:
+    runs-on: ubuntu-latest
+    needs: [analisis-estatico, pruebas-unitarias, pruebas-bdd, cobertura]
+    steps:
+      - run: echo "Desplegado"
